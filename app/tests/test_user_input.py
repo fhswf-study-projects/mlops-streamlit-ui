@@ -21,10 +21,10 @@ def mock_get_features():
 def test_run_app():
     with patch("get_features.get_features", side_effect=mock_get_features):
 
-        at = AppTest.from_file("user_input.py").run()
+        at = AppTest.from_file("app.py").run()
 
         # Simulate user input
-        at.number_input("Age").set_value(25)  
+        at.number_input("Age").set_value(25)
         at.selectbox("Workclass").set_value("Private")
         at.number_input("Fnlwgt").set_value(100000)
         at.selectbox("Education").set_value("Some-college")
