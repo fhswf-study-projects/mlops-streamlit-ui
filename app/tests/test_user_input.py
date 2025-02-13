@@ -1,8 +1,6 @@
 from streamlit.testing.v1 import AppTest
 import pandas as pd
 from unittest.mock import patch
-from app.user_input import run_app
-
 
 def mock_get_features():
     """Mocked version of get_features() for consistent testing."""
@@ -21,9 +19,9 @@ def mock_get_features():
 
 
 def test_run_app():
-    with patch("app.get_features.get_features", side_effect=mock_get_features):
+    with patch("get_features.get_features", side_effect=mock_get_features):
 
-        at = AppTest.from_function(run_app).run()
+        at = AppTest.from_file("user_input.py").run()
 
         # Simulate user input
         at.number_input("Age").set_value(25)  # ✅ Capitalized to match app logic
