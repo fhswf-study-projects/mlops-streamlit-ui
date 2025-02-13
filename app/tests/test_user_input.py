@@ -24,7 +24,7 @@ def test_run_app():
         at = AppTest.from_file("user_input.py").run()
 
         # Simulate user input
-        at.number_input("Age").set_value(25)  # ✅ Capitalized to match app logic
+        at.number_input("Age").set_value(25)  
         at.selectbox("Workclass").set_value("Private")
         at.number_input("Fnlwgt").set_value(100000)
         at.selectbox("Education").set_value("Some-college")
