@@ -2,12 +2,13 @@
 name = "fhswf-mlops-project"
 version = "0.1.0"
 description = ""
-authors = ["VitaliKStud <vitali9394@yahoo.de>"]
+authors = ["VitaliKStud <>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
 streamlit = "^1.42.0"
+pytest = "^8.3.4"
 
 
 [build-system]
