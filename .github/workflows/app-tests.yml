@@ -31,7 +31,8 @@ jobs:
           poetry install
 
       - name: Test App Code
-        run: python -m pytest tests
+        run: poetry run python -m pytest tests
+
  
           
       
