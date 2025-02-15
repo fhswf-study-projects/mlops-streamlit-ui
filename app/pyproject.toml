@@ -2,7 +2,7 @@
 name = "fhswf-mlops-project"
 version = "0.1.0"
 description = ""
-authors = ["VitaliKStud <>"]
+authors = ["VitaliKStud"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
