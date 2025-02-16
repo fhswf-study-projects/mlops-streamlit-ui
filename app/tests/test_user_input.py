@@ -3,7 +3,7 @@ import pandas as pd
 from unittest.mock import patch
 
 
-def mock_get_features() -> dict:
+def mock_get_features() -> int:
     """
     Mocked version of get_features() for consistent testing.
     """
