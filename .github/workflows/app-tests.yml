@@ -11,8 +11,6 @@ on:
 jobs:
   setup:
     runs-on: ubuntu-latest
-    outputs:
-      poetry-cache-hit: ${{ steps.cache-poetry.outputs.cache-hit }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -32,29 +30,12 @@ jobs:
         run: poetry install
         working-directory: ./app
 
-      - name: Cache Poetry Virtual Env
-        id: cache-poetry
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ runner.os }}-
-
   test:
     runs-on: ubuntu-latest
     needs: setup
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Restore Poetry Virtual Env
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ runner.os }}-
 
       - name: Run Tests
         run: poetry run pytest -v --disable-warnings tests
@@ -67,14 +48,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Restore Poetry Virtual Env
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ runner.os }}-
-
       - name: Run Ruff Linting
         run: poetry run ruff check .
         working-directory: ./app
@@ -86,14 +59,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Restore Poetry Virtual Env
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ runner.os }}-
-
       - name: Check Code Formatting
         run: poetry run ruff format --check .
         working-directory: ./app
@@ -104,14 +69,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Restore Poetry Virtual Env
-        uses: actions/cache@v3
-        with:
-          path: ~/.cache/pypoetry/virtualenvs
-          key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            poetry-${{ runner.os }}-
 
       - name: Run Type Checking
         run: poetry run pyright .
