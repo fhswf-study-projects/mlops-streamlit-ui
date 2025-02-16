@@ -10,6 +10,8 @@ package-mode = false
 python = "^3.12"
 streamlit = "^1.42.0"
 pytest = "^8.3.4"
+ruff = "^0.9.6"
+pyright = "^1.1.394"
 
 
 [build-system]
