@@ -51,6 +51,17 @@ jobs:
         run: poetry run ruff check --fix .
         working-directory: ./app
 
+  formating:
+    runs-on: ubuntu-latest
+    needs: setup
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Ruff Formating
+        run: poetry run ruff --check .
+        working-directory: ./app
+
   typecheck:
     runs-on: ubuntu-latest
     needs: setup
@@ -61,3 +72,4 @@ jobs:
       - name: Run Type Checking
         run: poetry run pyright .
         working-directory: ./app
+
