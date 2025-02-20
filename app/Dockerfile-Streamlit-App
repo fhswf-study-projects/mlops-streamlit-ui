@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-COPY . .
+COPY app/ .
 
 RUN python -m pip install --upgrade pip
 RUN pip install poetry

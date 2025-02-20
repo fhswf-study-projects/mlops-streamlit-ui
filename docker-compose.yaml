@@ -1,0 +1,12 @@
+version: "2.2"
+
+services:
+  app:
+    image: ghcr.io/fhswf-study-projects/app:latest  # ✅ Add this line
+    build:
+      context: .
+      dockerfile: app/Dockerfile-Streamlit-App
+    container_name: streamlit-app
+    hostname: streamlit-app
+    ports:
+      - "8501:8501"

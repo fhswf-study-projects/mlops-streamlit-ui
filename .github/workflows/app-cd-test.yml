@@ -8,9 +8,6 @@ on:
 jobs:
   publish:
     runs-on: self-hosted
-    defaults:
-      run:
-        working-directory: ./app
 
     steps:
       - name: Checkout repository
@@ -21,8 +18,8 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          IMAGE_NAME=ghcr.io/fhswf-study-projects/app
-          docker build -t $IMAGE_NAME:latest .
-          docker tag $IMAGE_NAME:latest $IMAGE_NAME:${{ github.sha }}
-          docker push $IMAGE_NAME:latest
-          docker push $IMAGE_NAME:${{ github.sha }}
+          export IMAGE_TAG=ghcr.io/fhswf-study-projects/mlops-project:${{ github.sha }}
+          docker-compose build
+          docker tag ghcr.io/fhswf-study-projects/mlops-project:latest $IMAGE_TAG
+          docker push ghcr.io/fhswf-study-projects/mlops-project:latest
+          docker push $IMAGE_TAG
