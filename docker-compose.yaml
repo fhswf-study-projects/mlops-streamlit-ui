@@ -2,7 +2,7 @@ version: "2.2"
 
 services:
   app:
-    image: ghcr.io/fhswf-study-projects/app:latest  # ✅ Add this line
+    image: ghcr.io/fhswf-study-projects/mlops-project:latest
     build:
       context: .
       dockerfile: app/Dockerfile-Streamlit-App
