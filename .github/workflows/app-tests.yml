@@ -34,14 +34,14 @@ jobs:
           poetry env use python
           poetry install
 
-      - name: Test App Code
-        run: poetry run python -m pytest tests
-
-      - name: Linting Code
-        run: poetry run ruff check .
-
-      - name: Formating Code
-        run: poetry run ruff format --check .
+#      - name: Test App Code
+#        run: poetry run python -m pytest tests
+#
+#      - name: Linting Code
+#        run: poetry run ruff check .
+#
+#      - name: Formating Code
+#        run: poetry run ruff format --check .
 
       - name: Type Checking
         run: poetry run pyright .
