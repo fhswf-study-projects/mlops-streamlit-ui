@@ -15,6 +15,7 @@ with st.form("user_input_form"):
                 max_value=params["max_value"],
                 help=params["help"],
                 key=converted_name,
+                
             )
         elif params["type"] == "select":
             converted_name = feature.capitalize().replace("_", " ")
