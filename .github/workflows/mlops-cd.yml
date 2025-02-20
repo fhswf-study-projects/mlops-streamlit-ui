@@ -1,9 +1,15 @@
-name: CD Pipeline for Docker
+name: CD Pipeline
 
 on:
   push:
     branches:
       - frontend-streamlit
+      - main
+
+  workflow_run:
+    workflows: [CI Pipeline]
+    types:
+      - completed
 
 jobs:
   publish:
