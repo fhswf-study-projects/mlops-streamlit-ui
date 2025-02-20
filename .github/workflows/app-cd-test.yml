@@ -20,6 +20,6 @@ jobs:
         run: |
           export IMAGE_TAG=ghcr.io/fhswf-study-projects/mlops-project:${{ github.sha }}
           docker compose build
-          docker tag ghcr.io/fhswf-study-projects/mlops-project:latest $IMAGE_TAG
+          docker --tag ghcr.io/fhswf-study-projects/mlops-project:latest $IMAGE_TAG
           docker push ghcr.io/fhswf-study-projects/mlops-project:latest
           docker push $IMAGE_TAG
