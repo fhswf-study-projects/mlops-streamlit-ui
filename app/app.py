@@ -14,8 +14,7 @@ with st.form("user_input_form"):
                 min_value=params["min_value"],
                 max_value=params["max_value"],
                 help=params["help"],
-                key=converted_name,
-                
+                key=converted_name,,
             )
         elif params["type"] == "select":
             converted_name = feature.capitalize().replace("_", " ")
