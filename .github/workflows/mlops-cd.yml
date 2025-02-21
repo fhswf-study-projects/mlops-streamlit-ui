@@ -14,6 +14,7 @@ on:
 jobs:
   publish:
     runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     permissions:
       contents: read
       packages: write
@@ -41,6 +42,7 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_VPS_SSH_KEY }}
           port: ${{ secrets.DEPLOYMENT_VPS_PORT }}
           script: |
+            echo "Connected to VPS successfully!"
             cd ~ && mkdir deploy-docker && cd deploy-docker
             wget https://github.com/fhswf-study-projects/mlops-project/blob/frontend-streamlit/docker-compose.yaml
             docker compose pull --include-deps

@@ -29,7 +29,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip uninstall poetry --y
+#          pip uninstall poetry --y
           python -m pip install --upgrade pip
           pip install poetry
           poetry env use python
