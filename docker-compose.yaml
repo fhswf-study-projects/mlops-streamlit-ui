@@ -1,4 +1,4 @@
-version: "2.2"
+version: '2.2'
 
 services:
   app:
@@ -9,4 +9,4 @@ services:
     container_name: streamlit-app
     hostname: streamlit-app
     ports:
-      - "8501:8501"
+      - '8501:8501'
