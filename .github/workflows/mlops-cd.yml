@@ -44,5 +44,5 @@ jobs:
             echo "Connected to VPS successfully!"
             cd ~ && mkdir deploy-docker && cd deploy-docker
             rm -r
-            wget https://github.com/fhswf-study-projects/mlops-project/blob/frontend-streamlit/docker-compose.yaml
+            wget https://raw.githubusercontent.com/fhswf-study-projects/mlops-project/frontend-streamlit/docker-compose.yaml
             docker-compose up -d
