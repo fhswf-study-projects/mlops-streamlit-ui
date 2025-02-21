@@ -10,11 +10,12 @@ on:
     workflows: [CI Pipeline]
     types:
       - completed
+    conclusions:
+      - success
 
 jobs:
   publish:
     runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     permissions:
       contents: read
       packages: write
