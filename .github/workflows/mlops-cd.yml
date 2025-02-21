@@ -10,7 +10,7 @@ jobs:
   ci_job:
     uses: fhswf-study-projects/mlops-project/.github/workflows/mlops-ci.yml@frontend-streamlit
 
-  publish:
+  cd_job:
     runs-on: self-hosted
     needs: [ci_job]
     permissions:
@@ -31,7 +31,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker compose build --pull --with-dependencies --push
-#
+
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.2.1
         with:
