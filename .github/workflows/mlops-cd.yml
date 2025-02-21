@@ -43,8 +43,7 @@ jobs:
           script: |
             echo "Connected to VPS successfully!"
             cd ~ && mkdir -p deploy-docker
-            mkdir -p app
             cd deploy-docker
-            rm -r
             wget https://raw.githubusercontent.com/fhswf-study-projects/mlops-project/frontend-streamlit/docker-compose.yaml -O ~/deploy-docker/docker-compose.yaml
+            docker-compose pull --include-deps
             docker-compose up -d
