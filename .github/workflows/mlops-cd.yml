@@ -6,16 +6,13 @@ on:
       - frontend-streamlit
       - main
 
-  workflow_run:
-    workflows: [CI Pipeline]
-    types:
-      - completed
-    conclusions:
-      - success
+  jobs:
+    ci_job: <owner>/<repo>/.github/workflows/mlops-ci.yml@frontend-streamlit
 
 jobs:
   publish:
     runs-on: self-hosted
+    needs: [ci_job]
     permissions:
       contents: read
       packages: write
