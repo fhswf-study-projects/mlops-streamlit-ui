@@ -7,8 +7,8 @@ on:
       - main
 
   jobs:
-    ci_job: fhswf-study-projects/mlops-project/.github/workflows/mlops-ci.yml@refs/heads/frontend-streamlit
-#
+    ci_job: fhswf-study-projects/mlops-project/.github/workflows/mlops-ci.yml@frontend-streamlit
+
 jobs:
   publish:
     runs-on: self-hosted
