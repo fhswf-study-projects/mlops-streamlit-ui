@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  ci_job: fhswf-study-projects/mlops-project/.github/workflows/mlops-ci.yml@frontend-streamlit
+  ci_job: ./.github/workflows/mlops-ci.yml@frontend-streamlit
 
   publish:
     runs-on: self-hosted
