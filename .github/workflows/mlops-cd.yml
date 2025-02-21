@@ -39,6 +39,7 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_VPS_USERNAME }}
           key: ${{ secrets.DEPLOYMENT_VPS_SSH_KEY }}
           port: ${{ secrets.DEPLOYMENT_VPS_PORT }}
+          timeout: 180
           script: |
             echo "Connected to VPS successfully!"
             cd ~ && mkdir deploy-docker && cd deploy-docker
