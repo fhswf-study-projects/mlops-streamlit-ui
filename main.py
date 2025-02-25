@@ -1,12 +1,28 @@
 import os
 import sys
+import logging
 
-from loguru import logger
 import streamlit as st
 import streamlit_authenticator as stauth
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
+from opentelemetry.sdk.logs import LogEmitterProvider
+from opentelemetry.exporter.otlp.proto.grpc.logs_exporter import OTLPLogExporter
+from opentelemetry.sdk.logs.export import BatchLogRecordProcessor
 
 from app.constants import EnvConfig
 
+
+# Set up OpenTelemetry logging
+log_provider = LogEmitterProvider()
+log_exporter = OTLPLogExporter(endpoint=os.environ.get(EnvConfig.OTEL_EXPORTER_OTLP_ENDPOINT.value), insecure=True)
+log_provider.add_log_record_processor(BatchLogRecordProcessor(log_exporter))
+
+# Apply logging instrumentation
+LoggingInstrumentor().instrument(set_logging_format=True)
+
+# Configure logger
+logger = logging.getLogger(__name__)
+logger.setLevel(getattr(logging, os.environ.get(EnvConfig.OTEL_LOG_LEVEL.value)))
 
 st.set_page_config(
     page_title="Get Your Prediction",
@@ -37,6 +53,7 @@ if __name__ == "__main__":
             from app.ui import main
 
             main()
+            logger.info("Streamlit app started!")
 
     except KeyboardInterrupt:
         logger.info("Shutting Down: Process interrupeted")
