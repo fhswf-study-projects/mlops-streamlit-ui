@@ -29,6 +29,13 @@ pyright = "^1.1.394"
 ruff = "^0.9.7"
 
 
+[tool.pytest.ini_options]
+addopts = "-v -s"
+testpaths = [
+    "tests",
+]
+
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

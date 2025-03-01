@@ -36,9 +36,8 @@ if __name__ == "__main__":
         if st.session_state["authentication_status"]:
             st.write(f"Welcome *{st.session_state['name']}*")
 
-            from app.ui import main
-
-            main()
+            # from app.ui import main
+            # main()
             logger.info("Streamlit app started!")
             logger.warning("This is a warning from Streamlit!")
 
