@@ -71,8 +71,8 @@ def test_run_app():
     necessary input-field are created. Insert values within the field and check if it matches the expected
     DataFrame.
     """
-    with patch("get_features.get_features", side_effect=mock_get_features):
-        at = AppTest.from_file("app.py").run()
+    with patch("app.schemas.get_features", side_effect=mock_get_features):
+        at = AppTest.from_file("app/ui.py").run()
 
         # Simulate user input
         at.number_input("Age").set_value(25)
