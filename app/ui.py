@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 features = get_features()
 user_inputs = {}
 
+
 def main():
     logger.info("Page reloaded!")
     with st.form("user_input_form"):
@@ -37,7 +38,9 @@ def main():
             st.subheader("Your Submitted Data")
 
             data = (
-                pd.DataFrame([user_inputs]).T.rename(columns={0: "Your Inputs"}).astype(str)
+                pd.DataFrame([user_inputs])
+                .T.rename(columns={0: "Your Inputs"})
+                .astype(str)
             )
             data.index.names = ["Categories"]
             st.dataframe(data, use_container_width=True, key="user_inputs")

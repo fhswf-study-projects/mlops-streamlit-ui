@@ -1,6 +1,7 @@
-from streamlit.testing.v1 import AppTest
-import pandas as pd
 from unittest.mock import patch
+
+import pandas as pd
+from streamlit.testing.v1 import AppTest
 
 
 def mock_get_features() -> dict:
