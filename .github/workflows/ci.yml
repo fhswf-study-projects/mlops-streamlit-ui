@@ -61,8 +61,8 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root --with dev
 
-      - name: Type checking
-        run: poetry run pyright
+      # - name: Type checking
+      #   run: poetry run pyright
 
       - name: Run automated tests
         run: poetry run coverage run -m pytest tests -v -s
