@@ -3,7 +3,7 @@ name: CI
 on:
   workflow_call:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "staging", "main" ]
 
 env:
   # Use for multi-branch deployment
@@ -62,7 +62,7 @@ jobs:
         run: poetry install --no-interaction --no-root --with dev
 
       - name: Type checking
-        run: poetry run pyright .
+        run: poetry run pyright
 
       - name: Run automated tests
         run: poetry run coverage run -m pytest tests -v -s
