@@ -5,6 +5,7 @@ import logging
 import streamlit as st
 import streamlit_authenticator as stauth
 
+from app.reloader import reload_ui
 from app.constants import EnvConfig
 
 
@@ -36,10 +37,8 @@ if __name__ == "__main__":
         if st.session_state["authentication_status"]:
             st.write(f"Welcome *{st.session_state['name']}*")
 
-            # from app.ui import main
-            # main()
+            reload_ui()
             logger.info("Streamlit app started!")
-            logger.warning("This is a warning from Streamlit!")
 
     except KeyboardInterrupt:
         logger.info("Shutting Down: Process interrupeted")
