@@ -9,7 +9,7 @@ from app.constants import EnvConfig
 
 logger = logging.getLogger(__name__)
 
-API_URL = os.environ[EnvConfig.API_BASE_URL.value]
+API_URL = os.getenv(EnvConfig.API_BASE_URL.value, "http://localhost")
 
 
 def send_data_for_predition(data: Dict) -> Union[str, None]:
