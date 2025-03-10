@@ -23,7 +23,6 @@ jobs:
 
   build_and_push:
     runs-on: self-hosted
-    environment: ${{ github.ref_name == 'main' && 'production' || 'staging' }}
     permissions:
       contents: read
       packages: write
@@ -88,20 +87,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          secret-envs: |
-            VIRTUAL_HOST=${{ secrets.VIRTUAL_HOST }}
-            LETSENCRYPT_HOST=${{ secrets.LETSENCRYPT_HOST }}
-            VIRTUAL_PORT=${{ secrets.VIRTUAL_PORT }}
-            API_BASE_URL=${{ secrets.API_BASE_URL }}
-            API_TOKEN=${{ secrets.API_TOKEN }}
-            PORT=${{ vars.PORT }}
-            AUTH_CONFIG_FILE=${{ vars.AUTH_CONFIG_FILE }}
-            OTEL_SERVICE_NAME=${{ vars.OTEL_SERVICE_NAME }}
-            OTEL_EXPORTER_OTLP_ENDPOINT=${{ secrets.OTEL_EXPORTER_OTLP_ENDPOINT }}
-            OTEL_PYTHON_LOG_LEVEL=${{ vars.OTEL_PYTHON_LOG_LEVEL }}
-            OTEL_PYTHON_LOG_CORRELATION=${{ vars.OTEL_PYTHON_LOG_CORRELATION }}
-            OTEL_METRIC_EXPORT_INTERVAL=${{ vars.OTEL_METRIC_EXPORT_INTERVAL }}
-            OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED=${{ vars.OTEL_PYTHON_LOGGING_AUTO_INSTRUMENTATION_ENABLED }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
