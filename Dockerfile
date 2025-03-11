@@ -24,11 +24,11 @@ COPY . .
 ###
 
 # Open port(s) for internal communication only
-EXPOSE $PORT
+EXPOSE 8501
 ###
 
 # Start streamlit app
-ENTRYPOINT opentelemetry-instrument streamlit run main.py > /dev/null
+ENTRYPOINT ["sh", "-c", "opentelemetry-instrument streamlit run main.py > /dev/null"]
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl --fail http://localhost:$PORT/healthz || exit 1
+    CMD curl --fail http://localhost:8501/healthz || exit 1
