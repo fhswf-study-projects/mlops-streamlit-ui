@@ -16,7 +16,7 @@ st.set_page_config(
     layout="centered",
 )
 
-authenticator = stauth.Authenticate(os.environ.get(EnvConfig.AUTH_CONFIG_FILE.value))  # type: ignore
+authenticator = stauth.Authenticate("auth_config.yaml")  # type: ignore
 
 
 if __name__ == "__main__":
