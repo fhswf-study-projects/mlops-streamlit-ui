@@ -23,12 +23,8 @@ RUN opentelemetry-bootstrap -a install
 COPY . .
 ###
 
-# Open port(s) for internal communication only
-EXPOSE 8501
-###
-
 # Start streamlit app
-ENTRYPOINT ["sh", "-c", "opentelemetry-instrument streamlit run main.py > /dev/null"]
+ENTRYPOINT ["sh", "-c", "opentelemetry-instrument streamlit run main.py --server.port $VIRTUAL_PORT > /dev/null"]
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
-    CMD curl --fail http://localhost:8501/healthz || exit 1
+    CMD curl --fail http://localhost:$VIRTUAL_PORT/healthz || exit 1
