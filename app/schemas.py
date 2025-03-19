@@ -1,3 +1,4 @@
+# TODO: Replace with pydantic model
 def get_features() -> dict:
     """
     Is needed for creating the app-insert-layout. Depends on the dtype of a column (number or select).
