@@ -40,45 +40,45 @@ with st.form("user_input_form"):
                 key=converted_name,
             )
 
-submitted = st.form_submit_button("Submit")
-if submitted:
-    prediction = None
-    st.subheader("Your Submitted Data")
-
-    data = (
-        pd.DataFrame([st.session_state["user_inputs"]])
-        .T.rename(columns={0: "Your Inputs"})
-        .astype(str)  # type: ignore
-    )
-    data.index.names = ["Categories"]
-    st.dataframe(data, use_container_width=True, key="user_inputs")
-
-    user_inputs_api = {
-        k.lower().replace(" ", "_"): v
-        for k, v in st.session_state["user_inputs"].items()
-    }
-    task_id = send_data_for_predition(user_inputs_api)
-    logger.info("Awaiting result of task:", str(task_id))
-
-    st.subheader("Your Prediction")
-    if task_id:
-        st.write(f"Task started! Task ID: {task_id}")
-
-        start_time = time.time()
-        result_placeholder = st.empty()
-
-        with st.spinner("Processing... Please wait."):
-            while time.time() - start_time < MAX_WAIT_TIME:
-                result = get_prediction(task_id)
-                if result is not None:
-                    logger.info(
-                        f"Prediction took: {time.time() - start_time} seconds to process"
-                    )
-                    result_placeholder.write(f"**{result}**")
-                    break
-
-                time.sleep(3)  # Poll every 3 seconds
-            else:
-                st.error("Task timed out after 2 minutes.")
-    else:
-        st.error("Failed to start task.")
+    submitted = st.form_submit_button("Submit")
+    if submitted:
+        prediction = None
+        st.subheader("Your Submitted Data")
+    
+        data = (
+            pd.DataFrame([st.session_state["user_inputs"]])
+            .T.rename(columns={0: "Your Inputs"})
+            .astype(str)  # type: ignore
+        )
+        data.index.names = ["Categories"]
+        st.dataframe(data, use_container_width=True, key="user_inputs")
+    
+        user_inputs_api = {
+            k.lower().replace(" ", "_"): v
+            for k, v in st.session_state["user_inputs"].items()
+        }
+        task_id = send_data_for_predition(user_inputs_api)
+        logger.info("Awaiting result of task:", str(task_id))
+    
+        st.subheader("Your Prediction")
+        if task_id:
+            st.write(f"Task started! Task ID: {task_id}")
+    
+            start_time = time.time()
+            result_placeholder = st.empty()
+    
+            with st.spinner("Processing... Please wait."):
+                while time.time() - start_time < MAX_WAIT_TIME:
+                    result = get_prediction(task_id)
+                    if result is not None:
+                        logger.info(
+                            f"Prediction took: {time.time() - start_time} seconds to process"
+                        )
+                        result_placeholder.write(f"**{result}**")
+                        break
+    
+                    time.sleep(3)  # Poll every 3 seconds
+                else:
+                    st.error("Task timed out after 2 minutes.")
+        else:
+            st.error("Failed to start task.")
