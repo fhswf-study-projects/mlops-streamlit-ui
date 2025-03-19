@@ -1,4 +1,3 @@
-import os
 import sys
 import logging
 
@@ -6,13 +5,12 @@ import streamlit as st
 import streamlit_authenticator as stauth
 
 from app.reloader import reload_ui
-from app.constants import EnvConfig
 
 
 logger = logging.getLogger(__name__)
 
 st.set_page_config(
-    page_title="Get Your Prediction",
+    page_title="Income Prediction App",
     layout="centered",
 )
 
@@ -35,8 +33,6 @@ if __name__ == "__main__":
             st.error("Username/password is incorrect")
 
         if st.session_state["authentication_status"]:
-            st.write(f"Welcome *{st.session_state['name']}*")
-
             reload_ui()
             logger.info("Streamlit app started!")
 

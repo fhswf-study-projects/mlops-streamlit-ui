@@ -1,6 +1,6 @@
 import os
-from typing import Dict, Union
 import logging
+from typing import Dict, Union
 
 import requests
 
