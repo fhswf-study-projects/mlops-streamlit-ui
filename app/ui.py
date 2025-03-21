@@ -59,7 +59,7 @@ with st.form("user_input_form"):
             for k, v in st.session_state["user_inputs"].items()
         }
         task_id = send_data_for_predition(user_inputs_api)
-        logger.info("Awaiting result of task:", str(task_id))
+        logger.info(f"Awaiting result of task: {task_id}")
 
         st.subheader("Your Prediction")
         if task_id:
@@ -73,7 +73,7 @@ with st.form("user_input_form"):
                     result = get_prediction(task_id)
                     if result is not None:
                         logger.info(
-                            f"Prediction took: {time.time() - start_time} seconds to process"
+                            f"Prediction took: {round(time.time() - start_time, 1)} seconds to process"
                         )
                         result_placeholder.write(f"**{result}**")
                         break
