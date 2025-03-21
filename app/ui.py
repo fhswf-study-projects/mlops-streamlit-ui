@@ -6,12 +6,17 @@ import pandas as pd
 
 from app.schemas import get_features
 from app.backend import get_prediction, send_data_for_predition
-
+from opentelemetry.metrics import get_meter
 
 MAX_WAIT_TIME = 120  # in seconds
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+
+meter = get_meter("metric_for_mlflow")
+
+counter_feedback = meter.create_counter(
+    name="counter_user_feedback", description="Feedback of a user if the prediction was correct or not", unit="1",
+)
 
 features = get_features()
 
@@ -45,7 +50,7 @@ with st.form("user_input_form"):
     if submitted:
         prediction = None
         st.subheader("Your Submitted Data")
-
+    
         data = (
             pd.DataFrame([st.session_state["user_inputs"]])
             .T.rename(columns={0: "Your Inputs"})
@@ -53,31 +58,48 @@ with st.form("user_input_form"):
         )
         data.index.names = ["Categories"]
         st.dataframe(data, use_container_width=True, key="user_inputs")
-
+    
         user_inputs_api = {
             k.lower().replace(" ", "_"): v
             for k, v in st.session_state["user_inputs"].items()
         }
         task_id = send_data_for_predition(user_inputs_api)
         logger.info(f"Awaiting result of task: {task_id}")
-
+    
         st.subheader("Your Prediction")
         if task_id:
             st.write(f"Task started! Task ID: {task_id}")
-
+    
             start_time = time.time()
             result_placeholder = st.empty()
-
+    
             with st.spinner("Processing... Please wait."):
                 while time.time() - start_time < MAX_WAIT_TIME:
                     result = get_prediction(task_id)
                     if result is not None:
                         logger.info(
-                            f"Prediction took: {round(time.time() - start_time, 1)} seconds to process"
+                            f"Prediction took: {time.time() - start_time} seconds to process"
                         )
                         result_placeholder.write(f"**{result}**")
-                        break
 
+                        st.write("Was this prediction helpful?")
+                        col1, col2 = st.columns(2)
+
+                        with col1:
+                            if st.button("👍 Correct Prediction"):
+                                st.success("Thank you for your feedback!")
+                                logging.info("Received feedback!")
+                                counter_feedback.add(1,  attributes={"Feedback_Pos": "Positive"})
+                                counter_feedback.add(1, attributes={"Feedback_Neg": "Negative"})
+
+
+                        with col2:
+                            if st.button("👎 False Prediction"):
+                                st.success("Thank you for your feedback!")
+                                logging.info("Received feedback!")
+
+                        break
+    
                     time.sleep(3)  # Poll every 3 seconds
                 else:
                     st.error("Task timed out after 2 minutes.")
