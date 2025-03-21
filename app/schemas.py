@@ -11,7 +11,7 @@ def get_features() -> dict:
         "age": {
             "type": "number",
             "min_value": 0,
-            "max_value": 200,
+            "max_value": 120,
             "help": "Insert your age.",
         },
         "workclass": {
