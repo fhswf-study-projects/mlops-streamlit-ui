@@ -8,6 +8,7 @@ from app.reloader import reload_ui
 
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 st.set_page_config(
     page_title="Income Prediction App",
