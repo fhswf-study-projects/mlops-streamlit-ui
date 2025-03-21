@@ -48,8 +48,8 @@ with st.form("user_input_form"):
 
     submitted = st.form_submit_button("Submit")
 
+result = None
 if submitted:
-    prediction = None
     st.subheader("Your Submitted Data")
 
     data = (
@@ -99,11 +99,11 @@ col1, col2 = st.columns(2)
 with col1:
     if st.button("👍 Correct Prediction"):
         st.success("Thank you for your feedback!")
-        # counter_feedback.add(1, attributes={"Feedback_Pos": "Positive"})
+        counter_feedback.add(1, attributes={"Feedback_Pos": "Positive"})
         logging.info("Received feedback!")
 
 with col2:
     if st.button("👎 False Prediction"):
-        # counter_feedback.add(1, attributes={"Feedback_Neg": "Negative"})
+        counter_feedback.add(1, attributes={"Feedback_Neg": "Negative"})
         st.success("Thank you for your feedback!")
         logging.info("Received feedback!")
