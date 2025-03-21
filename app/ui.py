@@ -167,7 +167,8 @@ if result_received is True and st.session_state.feedback_response is None:
 
     with col1:
         st.button(
-            "👍 Correct Prediction",
+            "👍 Yes, it's correct!",
+            help="Click if the prediction is right",
             on_click=send_feedback,
             args=[
                 {"Feedback_Pos": "Positive"}
@@ -176,7 +177,8 @@ if result_received is True and st.session_state.feedback_response is None:
 
     with col2:
         st.button(
-            "👎 False Prediction",
+            "👎 No, it's wrong",
+            help="Click if the prediction is incorrect",
             on_click=send_feedback,
             args=[
                 {"Feedback_Neg": "Negative"}
