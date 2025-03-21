@@ -6,11 +6,17 @@ import pandas as pd
 
 from app.schemas import get_features
 from app.backend import get_prediction, send_data_for_predition
-
+from opentelemetry.metrics import get_meter
 
 MAX_WAIT_TIME = 120  # in seconds
 
 logger = logging.getLogger(__name__)
+
+meter = get_meter("metric_for_mlflow")
+
+counter_feedback = meter.create_counter(
+    name="counter_user_feedback", description="Feedback of a user if the prediction was correct or not", unit="1",
+)
 
 features = get_features()
 
@@ -58,7 +64,7 @@ with st.form("user_input_form"):
             for k, v in st.session_state["user_inputs"].items()
         }
         task_id = send_data_for_predition(user_inputs_api)
-        logger.info("Awaiting result of task:", str(task_id))
+        logger.info(f"Awaiting result of task: {task_id}")
     
         st.subheader("Your Prediction")
         if task_id:
@@ -75,6 +81,23 @@ with st.form("user_input_form"):
                             f"Prediction took: {time.time() - start_time} seconds to process"
                         )
                         result_placeholder.write(f"**{result}**")
+
+                        st.write("Was this prediction helpful?")
+                        col1, col2 = st.columns(2)
+
+                        with col1:
+                            if st.button("👍 Correct Prediction"):
+                                st.success("Thank you for your feedback!")
+                                logging.info("Received feedback!")
+                                counter_feedback.add(1,  attributes={"Feedback_Pos": "Positive"})
+                                counter_feedback.add(1, attributes={"Feedback_Neg": "Negative"})
+
+
+                        with col2:
+                            if st.button("👎 False Prediction"):
+                                st.success("Thank you for your feedback!")
+                                logging.info("Received feedback!")
+
                         break
     
                     time.sleep(3)  # Poll every 3 seconds
