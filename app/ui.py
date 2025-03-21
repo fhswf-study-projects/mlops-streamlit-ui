@@ -25,19 +25,6 @@ counter_feedback = meter.create_counter(
 
 features = get_features()
 
-#####################################################################
-# Predifined states for Streamlit and the app itself
-#####################################################################
-
-if "user_input" not in st.session_state:
-    st.session_state["user_inputs"] = {}
-
-if "feedback_response" not in st.session_state:
-    st.session_state.feedback_response = None
-
-st.title("🔮 Income Prediction System")
-st.write("Enter your data below to get a prediction.")
-
 
 def create_input_fields(params: dict, feature: str) -> None:
     """
@@ -65,14 +52,6 @@ def create_input_fields(params: dict, feature: str) -> None:
             )
 
 
-# The Input User Form
-with st.form("user_input_form"):
-    column_numeric, column_categorical = st.columns(2)
-    for feature, params in features.items():
-        create_input_fields(params, feature)
-    submitted = st.form_submit_button("Submit")
-
-
 def process_prediction(inputs: dict, t_id: str) -> bool:
     """
     Is getting the prediction and returning True if was successful.
@@ -86,8 +65,8 @@ def process_prediction(inputs: dict, t_id: str) -> bool:
             logger.info(
                 f"Prediction took: {time.time() - start_time} seconds to process"
             )
-            st.write("Prediction:")
-            st.write(f"**{result}**")
+            with st.expander("Prediction", expanded=True):
+                st.write(f"**{result}**")
             inputs["income"] = result
             inputs["task_id"] = t_id
             # send_data_to_with_task_id_to_backend(user_inputs_api) TODO
@@ -104,6 +83,7 @@ def show_submitted_data():
     Show submitted data as a table for the user.
     """
     st.subheader("Submitted Data")
+
     data = (
         pd.DataFrame([st.session_state["user_inputs"]])
         .T.rename(columns={0: "Your Inputs"})
@@ -123,6 +103,32 @@ def convert_user_inputs_to_a_dict():
     }
 
 
+def send_feedback(attributes):
+    # counter_feedback.add(1, attributes=attributes) # TODO
+    logger.info("Received feedback!")
+    st.session_state.feedback_response = "Thank you for your feedback!"
+
+
+#####################################################################
+# Predifined states for Streamlit and the app itself
+#####################################################################
+
+if "user_input" not in st.session_state:
+    st.session_state["user_inputs"] = {}
+
+if "feedback_response" not in st.session_state:
+    st.session_state.feedback_response = None
+
+st.title("Income Prediction System")
+
+# The Input User Form
+with st.expander("Enter your data below to get a prediction.", expanded=True):
+    with st.form("user_input_form", border=False):
+        column_numeric, column_categorical = st.columns(2)
+        for feature, params in features.items():
+            create_input_fields(params, feature)
+        submitted = st.form_submit_button("Submit")
+
 # After pressing on Submit this will apear
 column_submitted_data, column_results = st.columns(2)
 if submitted:
@@ -140,11 +146,9 @@ if submitted:
 
     with column_results:
         st.subheader("Result")
-        st.divider()
         if task_id is not None:
-            st.write("Task started! Task ID:")
-            st.write(f"**{task_id}**")
-            st.divider()
+            with st.expander("Task started! Expand, to show TASK-ID", expanded=False):
+                st.write(f"**{task_id}**")
             with st.spinner("Processing... Please wait."):
                 result_received = process_prediction(
                     inputs=user_inputs_api,
@@ -152,12 +156,6 @@ if submitted:
                 )
         else:
             logger.warning("Failed to start task (no task-id).")
-
-
-def send_feedback(attributes):
-    # counter_feedback.add(1, attributes=attributes) # TODO
-    logger.info("Received feedback!")
-    st.session_state.feedback_response = "Thank you for your feedback!"
 
 # Feedback-Section
 if result_received is True and st.session_state.feedback_response is None:
