@@ -12,7 +12,7 @@ logger.setLevel(logging.INFO)
 
 API_URL = os.getenv(EnvConfig.API_BASE_URL.value, "http://localhost")
 
-def send_feedback_data (data: Dict) -> None:
+def send_feedback_data(data: Dict) -> None:
     """Send a request to start the task and return the task ID."""
     logger.info("Sending data back with task-id and prediction")
     with requests.Session() as session:
