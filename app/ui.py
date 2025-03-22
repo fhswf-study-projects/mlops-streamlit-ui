@@ -119,6 +119,8 @@ if "user_input" not in st.session_state:
 if "feedback_response" not in st.session_state:
     st.session_state.feedback_response = None
 
+result_received = False
+
 st.title("Income Prediction System")
 
 # The Input User Form
@@ -171,9 +173,9 @@ if result_received is True and st.session_state.feedback_response is None:
             icon=":material/thumb_up:",
             help="Click if the prediction is right",
             on_click=send_feedback,
-            args=[
-                {"Feedback_Pos": "Positive"}
-            ],
+            args=(
+                {"Feedback_Pos": "Positive"},
+            ),
             use_container_width=True
         )
 
@@ -183,9 +185,9 @@ if result_received is True and st.session_state.feedback_response is None:
             icon=":material/thumb_down:",
             help="Click if the prediction is incorrect",
             on_click=send_feedback,
-            args=[
-                {"Feedback_Neg": "Negative"}
-            ],
+            args=(
+                {"Feedback_Neg": "Negative"},
+            ),
             use_container_width=True
         )
 
