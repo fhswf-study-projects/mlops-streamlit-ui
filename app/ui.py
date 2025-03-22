@@ -5,7 +5,7 @@ import streamlit as st
 import pandas as pd
 
 from app.schemas import get_features
-from app.backend import get_prediction, send_data_for_predition, send_data_to_with_task_id_to_backend
+from app.backend import get_prediction, send_data_for_predition, send_feedback_data
 from opentelemetry.metrics import get_meter
 
 #####################################################################
@@ -68,7 +68,7 @@ def process_prediction(inputs: dict, t_id: str) -> bool:
             st.metric("Prediction", result, border=True)
             inputs["income"] = result
             inputs["task_id"] = t_id
-            send_data_to_with_task_id_to_backend(user_inputs_api)
+            send_feedback_data(user_inputs_api)
             return True
 
         time.sleep(3)  # Poll every 3 seconds
