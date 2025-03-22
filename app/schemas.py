@@ -21,7 +21,7 @@ def get_features() -> dict:
                 'Local-gov',
                 'Self-emp-not-inc',
                 'Federal-gov',
-                'State-gov'
+                'State-gov',
                 'Self-emp-inc',
                 'Without-pay',
                 'Never-worked'
@@ -42,7 +42,7 @@ def get_features() -> dict:
                 'Assoc-acdm',
                 'Some-college',
                 '10th',
-                'Prof-school'
+                'Prof-school',
                 '7th-8th',
                 'Bachelors',
                 'Masters',
