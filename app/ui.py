@@ -60,16 +60,15 @@ def process_prediction(inputs: dict, t_id: str) -> bool:
     start_time = time.time()
 
     while time.time() - start_time < MAX_WAIT_TIME:
-        result = "get_prediction(t_id)"  # TODO
+        result = get_prediction(t_id)
         if result is not None:
             logger.info(
                 f"Prediction took: {time.time() - start_time} seconds to process"
             )
-            with st.expander("Prediction", expanded=True):
-                st.write(f"**{result}**")
+            st.metric("Prediction", result, border=True)
             inputs["income"] = result
             inputs["task_id"] = t_id
-            # send_data_to_with_task_id_to_backend(user_inputs_api) TODO
+            send_data_to_with_task_id_to_backend(user_inputs_api)
             return True
 
         time.sleep(3)  # Poll every 3 seconds
@@ -90,7 +89,8 @@ def show_submitted_data():
         .astype(str)  # type: ignore
     )
     data.index.names = ["Categories"]
-    st.dataframe(data, use_container_width=True, key="user_inputs")
+    height = int(35.2*(len(data) + 1))
+    st.dataframe(data, use_container_width=True, key="user_inputs", height=height)
 
 
 def convert_user_inputs_to_a_dict():
@@ -104,7 +104,7 @@ def convert_user_inputs_to_a_dict():
 
 
 def send_feedback(attributes):
-    # counter_feedback.add(1, attributes=attributes) # TODO
+    counter_feedback.add(1, attributes=attributes)
     logger.info("Received feedback!")
     st.session_state.feedback_response = "Thank you for your feedback!"
 
@@ -127,7 +127,7 @@ with st.expander("Enter your data below to get a prediction.", expanded=True):
         column_numeric, column_categorical = st.columns(2)
         for feature, params in features.items():
             create_input_fields(params, feature)
-        submitted = st.form_submit_button("Submit")
+        submitted = st.form_submit_button("Predict", help="Get prediction", icon=":material/grain:")
 
 # After pressing on Submit this will apear
 column_submitted_data, column_results = st.columns(2)
@@ -141,7 +141,7 @@ if submitted:
 
     user_inputs_api = convert_user_inputs_to_a_dict()
 
-    task_id = "send_data_for_predition(user_inputs_api)"  # TODO
+    task_id = send_data_for_predition(user_inputs_api)
     logger.info(f"Awaiting result of task: {task_id}")
 
     with column_results:
@@ -167,24 +167,29 @@ if result_received is True and st.session_state.feedback_response is None:
 
     with col1:
         st.button(
-            "👍 Yes, it's correct!",
+            "Yes, it's correct!",
+            icon=":material/thumb_up:",
             help="Click if the prediction is right",
             on_click=send_feedback,
             args=[
                 {"Feedback_Pos": "Positive"}
-            ]
+            ],
+            use_container_width=True
         )
 
     with col2:
         st.button(
-            "👎 No, it's wrong",
+            "No, it's wrong",
+            icon=":material/thumb_down:",
             help="Click if the prediction is incorrect",
             on_click=send_feedback,
             args=[
                 {"Feedback_Neg": "Negative"}
-            ]
+            ],
+            use_container_width=True
         )
 
+# Feedback for the user, so the user know feedback was successfully
 if st.session_state.feedback_response:
     st.success(st.session_state.feedback_response)
     result_received = False

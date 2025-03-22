@@ -17,7 +17,7 @@ def send_data_to_with_task_id_to_backend(data: Dict) -> Union[str, None]:
     logger.info("Sending data back with task-id and prediction")
     with requests.Session() as session:
         response = session.post(
-            f"{API_URL}/models/predict", # TODO
+            f"{API_URL}/models/feedback",
             headers={
                 "Authorization": f"Bearer {os.environ[EnvConfig.API_TOKEN.value]}",
             },
