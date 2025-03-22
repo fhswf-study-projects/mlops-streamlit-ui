@@ -12,12 +12,12 @@ logger.setLevel(logging.INFO)
 
 API_URL = os.getenv(EnvConfig.API_BASE_URL.value, "http://localhost")
 
-def send_data_to_with_task_id_to_backend(data: Dict) -> Union[str, None]:
+def send_feedback_data (data: Dict) -> None:
     """Send a request to start the task and return the task ID."""
     logger.info("Sending data back with task-id and prediction")
     with requests.Session() as session:
         response = session.post(
-            f"{API_URL}/models/feedback",
+            f"{API_URL}/data-management/upload/feedback",
             headers={
                 "Authorization": f"Bearer {os.environ[EnvConfig.API_TOKEN.value]}",
             },
